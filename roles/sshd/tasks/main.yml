@@ -1,0 +1,14 @@
+---
+# tasks file for sshd
+- name: copy over sshd_server_config
+  copy:
+  src: sshd_server_config
+  dest: /etc/ssh/sshd_config
+  owner: root
+  group: wheel
+  mode: '0644'
+- name: restart sshd
+  service: 
+    name: sshd
+    enable: yes
+    state: restarted

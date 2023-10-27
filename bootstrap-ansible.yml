@@ -1,0 +1,46 @@
+---
+# tasks file for bootstrap_ansible
+- hosts: "{{ host }}"
+  remote_user: root
+  vars: 
+    inventory_group_name: ""
+
+  tasks:
+  - name: add ansible user
+    user: 
+      name: ansible
+      password: '*'
+      groups: wheel
+
+  - name: generate ssh key locally if doesn't exist
+    openssh_keypair:
+      path: ~/.ssh/ansible_id_rsa
+      type: rsa
+    delegate_to: 127.0.0.1
+
+  - name: add ansible ssh key
+    authorized_key:
+      user: ansible
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/ansible_id_rsa.pub') }}"
+
+  - name: set doas permissions
+    lineinfile:
+      path: /usr/local/etc/doas.conf
+      line: permit nopass :wheel
+      create: yes
+
+  - name: add host to additional group in ansible inventory file
+    lineinfile:
+      path: "{{ inventory_file }}"
+      insertafter: "{{ inventory_group_name }}"
+      firstmatch: yes
+      line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address }}"
+    delegate_to: localhost
+    when: 
+      - inventory_group_name is defined
+      - inventory_group_name | length > 0
+      - inventory_hostname not in groups[inventory_group_name]
+
+  roles:
+    - sshd

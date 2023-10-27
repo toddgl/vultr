@@ -1,0 +1,7 @@
+---
+# vars file for vultr
+vultr_server_name: ""
+vultr_region: syd
+vultr_ssh_key: vps_id_ras
+vultr_inventory_group: vultr
+delete: false

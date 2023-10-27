@@ -1,0 +1,14 @@
+---
+- name: delete vultr server
+  vultr.cloud.instance:
+    api_key: 7UY3YIMJZZMDOHVBPUHME6FFF4UEJOB4OBOA
+    name: "{{ vultr_server_name }}"
+    region: "{{ vultr_region }}"
+    state: absent
+
+- name: "remove all instances of {{ vultr_server_name }} from inventory"
+  lineinfile:
+    path: "{{ inventory_file }}"
+    regexp: "^{{ vultr_server_name }}"
+    state: absent
+

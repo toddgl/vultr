@@ -1,0 +1,9 @@
+localhost ansible_host=127.0.0.1 ansible_connection=local ansible_user=glenn ansible_ssh_key=/home/glenn/.ssh/vps_id_rsa
+
+[git]
+
+[nameservers]
+ruru
+
+[vultr]
+
