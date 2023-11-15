@@ -1,0 +1,28 @@
+---
+# tasks file for nginx
+- name: Define nginx_user.
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
+
+- name: Update pkg cache.
+  command: pkg update -f
+  environment:
+    ASSUME_ALWAYS_YES: "yes"
+  tags: ['skip_ansible_lint']
+
+- name: Ensure nginx is installed.
+  pkgng:
+    name: "{{ nginx_package_name }}"
+    state: present
+
+- name: Copy the Nginx configuration file to the host
+  template:
+    src: templates/nginx.j2
+    dest: /usr/local/etc/nginx
+
+- name: Create logs directory.
+  file:
+    path: /var/log/nginx
+    state: directory
+    mode: 0755

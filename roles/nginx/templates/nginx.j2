@@ -1,0 +1,50 @@
+user                 www;
+worker_processes     4;
+worker_rlimit_nofile 51200;
+error_log            /var/log/nginx/error.log;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  include           mime.types;
+  default_type      application/octet-stream;
+  log_format        main  '$remote_addr - $remote_user [$time_local] "$request" ';
+  access_log        /var/log/nginx/access.log main;
+  sendfile          on;
+  keepalive_timeout 65;
+
+  server {
+    # ENFORCE HTTPS
+    listen      80;
+    server_name {{ vultr_server_name }};
+    return      301 https://$server_name$request_uri;
+  }
+
+  server {
+    listen              443 ssl http2;
+    server_name {{ vultr_server_name }};
+    ssl_certificate     /usr/local/etc/nginx/ssl/nginx.crt;
+    ssl_certificate_key /usr/local/etc/nginx/ssl/nginx.key;
+
+    # HEADERS SECURITY RELATED
+    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;";
+
+    # HEADERS
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-Download-Options noopen;
+    add_header X-Permitted-Cross-Domain-Policies none;
+
+    # PATH TO THE ROOT OF YOUR INSTALLATION
+    root /usr/local/www/FairsystemProject/;
+
+    location = /robots.txt {
+      allow all;
+      log_not_found off;
+      access_log off;
+    }
+  }
+}

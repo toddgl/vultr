@@ -1,0 +1,7 @@
+---
+# defaults file for nginx
+# The name of the nginx package to install.
+nginx_package_name: "nginx"
+
+nginx_service_state: started
+nginx_service_enabled: true

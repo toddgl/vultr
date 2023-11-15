@@ -14,7 +14,7 @@
 
   - name: generate ssh key locally if doesn't exist
     openssh_keypair:
-      path: ~/.ssh/ansible_id_rsa
+      path: ~/.ssh/vps_id_rsa
       type: rsa
     delegate_to: 127.0.0.1
 
@@ -22,7 +22,7 @@
     authorized_key:
       user: ansible
       state: present
-      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/ansible_id_rsa.pub') }}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/vps_id_rsa.pub') }}"
 
   - name: set doas permissions
     lineinfile:
