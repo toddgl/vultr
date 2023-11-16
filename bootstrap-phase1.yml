@@ -1,0 +1,7 @@
+---
+- hosts: vultr
+  remote_user: root
+  gather_facts: false # Should be false as python is not installed yet
+
+  roles:
+    - {role: freebsd-bootstrap, bootstrap_phase: 1}

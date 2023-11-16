@@ -1,0 +1,7 @@
+---
+- hosts: vultr
+  sudo: true
+  remote_user: admin # Should be the same as bootstrap_username
+
+  roles:
+    - {role: freebsd-bootstrap, bootstrap_phase: 2}
