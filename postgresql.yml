@@ -1,4 +1,0 @@
----
-- hosts: "vultr"
-  roles:
-    - postgresql

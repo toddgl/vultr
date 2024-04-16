@@ -1,0 +1,14 @@
+---
+- hosts: vultr
+  gather_facts: no
+  become: True
+  vars_files:
+    - vars/defaults.yml
+  roles:
+    - role: 'deploy/nginx.yml'
+      tags: [ngnix]
+    - role: 'deploy/postgresql.yml'
+      tags: [postgresql]
+    - role: 'deploy/gnuicorn.yml'
+      tags: [gnuicorn]
+

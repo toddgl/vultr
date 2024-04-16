@@ -1,0 +1,20 @@
+# vars/defaults.yml
+# modify for each deployment
+---
+user_name: glenn
+sys_packages: ['nginx', 'curl', 'wget', 'vim', 'git', 'tree', 'ufw', 'whois','python3-virtualenv','python3-pip','python3-dev','libpq-dev']
+project_repo: "https://github.com/toddgl/FairSystemProject"
+app_name: fairsystem-app
+django_project_name: fairsystem_proj
+ansible_python_interpreter: /usr/local/bin/python3
+gnuicorn_port: 8000
+projdir: "/home/glenn/bin/fairsystem_proj"
+etcdir: "/etc/local/fairsystem/"
+app_dir: "/home/{{ user_name }}/{{ app_name }}"
+django_secret_key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+server_IP: XXX.XXX.XXX.XX
+fixture_path: /home/user/{{ app_dir }}/{{ app_name}}/fixtures/
+django_superuser: glenn
+django_superuser_password: 239ut-0u9g9-qse0wow-0o-ero-o-78989897et4y9wf0f
+domain_name: mydomain.org
+email: g.todd@internet.co.nz
