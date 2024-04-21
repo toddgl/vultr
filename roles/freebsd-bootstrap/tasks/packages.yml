@@ -1,5 +1,5 @@
 ---
 - name: Install base packages
-  pkgng: name={{ item }}
+  community.general.pkgng: name={{ item }}
   with_items:
   - rsync

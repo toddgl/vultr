@@ -1,14 +1,16 @@
 ---
-- hosts: vultr
-  gather_facts: no
-  become: True
+- name: Install core web components
+  hosts: vultr
+  gather_facts: false
+  become: true
   vars_files:
     - vars/defaults.yml
   roles:
-    - role: 'deploy/nginx.yml'
+    - role: app
+      tags: [app]
+    - role: nginx
       tags: [ngnix]
-    - role: 'deploy/postgresql.yml'
+    - role: postgresql
       tags: [postgresql]
-    - role: 'deploy/gnuicorn.yml'
-      tags: [gnuicorn]
-
+    - role: gunicorn
+      tags: [gunicorn]

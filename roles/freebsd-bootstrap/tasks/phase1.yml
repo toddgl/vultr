@@ -3,7 +3,7 @@
   raw: sh -c "ASSUME_ALWAYS_YES=yes pkg install python"
 
 - name: Install sudo
-  pkgng: name=sudo
+  community.general.pkgng: name=sudo
 
 - name: Create admin user
   user: name={{ bootstrap_username }}

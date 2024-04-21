@@ -1,40 +1,41 @@
 ---
 # tasks file for bootstrap_ansible
-- hosts: "{{ host }}"
+- name: Set up ssh on vultr server
+  hosts: "vultr"
   remote_user: root
-  vars: 
+  vars:
     inventory_group_name: ""
 
   tasks:
-  - name: add ansible user
-    user: 
+  - name: Add ansible user
+    ansible.builtin.user: 
       name: ansible
       password: '*'
       groups: wheel
 
-  - name: generate ssh key locally if doesn't exist
-    openssh_keypair:
+  - name: Generate ssh key locally if doesn't exist
+    community.crypto.openssh_keypair:
       path: ~/.ssh/vps_id_rsa
       type: rsa
     delegate_to: 127.0.0.1
 
-  - name: add ansible ssh key
-    authorized_key:
+  - name: Add ansible ssh key
+    ansible.posix.authorized_key:
       user: ansible
       state: present
       key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/vps_id_rsa.pub') }}"
 
-  - name: set doas permissions
-    lineinfile:
+  - name: Set doas permissions
+    ansible.builtin.lineinfile:
       path: /usr/local/etc/doas.conf
       line: permit nopass :wheel
-      create: yes
+      create: true
 
-  - name: add host to additional group in ansible inventory file
-    lineinfile:
+  - name: Add host to additional group in ansible inventory file
+    ansible.builtin.lineinfile:
       path: "{{ inventory_file }}"
       insertafter: "{{ inventory_group_name }}"
-      firstmatch: yes
+      firstmatch: true
       line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address }}"
     delegate_to: localhost
     when: 

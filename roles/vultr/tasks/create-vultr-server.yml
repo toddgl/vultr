@@ -1,8 +1,8 @@
 ---
-- name: create a vultr server
+- name: Create a vultr server
   vultr.cloud.instance:
     api_key: 7UY3YIMJZZMDOHVBPUHME6FFF4UEJOB4OBOA
-    name: "{{ vultr_server_name }}" 
+    name: "{{ vultr_server_name }}"
     hostname: "{{ vultr_server_name }}"
     os: FreeBSD 13 x64
     plan: vc2-1c-1gb
@@ -10,13 +10,12 @@
     state: started
   register: output
 
-- name: print out ipv4 address
-  debug:
+- name: Print out ipv4 address
+  ansible.builtin.debug:
     msg: " {{ output.vultr_instance.main_ip }}"
 
-- name: "add {{ vultr_server_name }} to inventory group {{ vultr_inventory_group }}"
-  lineinfile:
+- name: Add server name to inventory group
+  ansible.builtin.lineinfile:
     path: "{{ inventory_file }}"
     insertafter: "{{ vultr_inventory_group }}"
     line: "{{ vultr_server_name }} ansible_host={{ output.vultr_instance.main_ip }}"
-

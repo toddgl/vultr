@@ -1,4 +1,5 @@
 ---
-- hosts: "localhost"
+- name: Manage creation and deletion of vultr servers
+  hosts: "localhost"
   roles:
     - vultr

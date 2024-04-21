@@ -1,6 +1,5 @@
 ---
 - name: Install ntp
-  pkgng: name=ntp
-
+  community.general.pkgng: name=ntp
 - name: Enable ntp
-  service: name=ntpd state=started enabled=yes
+  ansible.builtin.service: name=ntpd state=started enabled=yes

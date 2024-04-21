@@ -1,44 +1,39 @@
 ---
-- name: clone django project respository
-  git:
+- name: Clone django project respository
+  ansible.builtin.git:
     repo: "{{ project_repo }}"
     dest: "{{ projdir }}"
     version: master
-    become_user: {{ user_name  }}
 
 - name: Install production.py
-  template:
+  ansible.builtin.template:
     src: production.py
     dest: "{{ projdir }}/config/settings/production.py"
-    become_user: {{ user_name  }}
+    mode: '755'
+    become_user: "{{ user_name }}"
 
 - name: Create virtualenv and run pip3 install -r requirement.freeze
-  pip:
+  ansible.builtin.pip:
     virtualenv: "/home/glenn/bin/fairsystemproject/venv"
     requirements: "{{ projdir }}/bin/python3 -m venv"
 
 - name: Run makemigrations
-  django_manage:
+  community.general.django_manage:
     command: makemigrations
-    app_path: "{{projdir}}"
+    app_path: "{{ projdir }}"
     settings: "config.settings.production"
-    virtualenv: "{{projdir}}/venv"
-    become_user: {{ user_name  }}
+    virtualenv: "{{ projdir }}/venv"
 
 - name: Run migrate
-  django_manage:
+  community.general.django_manage:
     command: migrate
-    app_path: "{{projdir}}"
+    app_path: "{{ projdir }}"
     settings: "config.settings.production"
-    virtualenv: "{{projdir}}/venv"
-    become_user: {{ user_name  }}
+    virtualenv: "{{ projdir }}/venv"
 
 - name: Run collectstatic
-  django_manage:
+  community.general.django_manage:
     command: collectstatic
-    app_path: "{{projdir}}"
+    app_path: "{{ projdir }}"
     settings: "config.settings.production"
-    virtualenv: "{{projdir}}/venv"
-    become_user: {{ user_name  }}
-
-
+    virtualenv: "{{ projdir }}/venv"
