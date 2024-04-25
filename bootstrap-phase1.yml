@@ -1,5 +1,6 @@
 ---
-- hosts: vultr
+- name: Boostrap FreeBSD phase 1
+  hosts: vultr
   remote_user: root
   gather_facts: false # Should be false as python is not installed yet
 

@@ -7,41 +7,42 @@
     inventory_group_name: ""
 
   tasks:
-  - name: Add ansible user
-    ansible.builtin.user: 
-      name: ansible
-      password: '*'
-      groups: wheel
+    - name: Add ansible user
+      ansible.builtin.user:
+        name: ansible
+        password: '*'
+        groups: wheel
 
-  - name: Generate ssh key locally if doesn't exist
-    community.crypto.openssh_keypair:
-      path: ~/.ssh/vps_id_rsa
-      type: rsa
-    delegate_to: 127.0.0.1
+    - name: Generate ssh key locally if doesn't exist
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/vps_id_rsa
+        type: rsa
+      delegate_to: 127.0.0.1
 
-  - name: Add ansible ssh key
-    ansible.posix.authorized_key:
-      user: ansible
-      state: present
-      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/vps_id_rsa.pub') }}"
+    - name: Add ansible ssh key
+      ansible.posix.authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/vps_id_rsa.pub') }}"
 
-  - name: Set doas permissions
-    ansible.builtin.lineinfile:
-      path: /usr/local/etc/doas.conf
-      line: permit nopass :wheel
-      create: true
+    - name: Set doas permissions
+      ansible.builtin.lineinfile:
+        path: /usr/local/etc/doas.conf
+        line: permit nopass :wheel
+        mode: '755'
+        create: true
 
-  - name: Add host to additional group in ansible inventory file
-    ansible.builtin.lineinfile:
-      path: "{{ inventory_file }}"
-      insertafter: "{{ inventory_group_name }}"
-      firstmatch: true
-      line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address }}"
-    delegate_to: localhost
-    when: 
-      - inventory_group_name is defined
-      - inventory_group_name | length > 0
-      - inventory_hostname not in groups[inventory_group_name]
+    - name: Add host to additional group in ansible inventory file
+      ansible.builtin.lineinfile:
+        path: "{{ inventory_file }}"
+        insertafter: "{{ inventory_group_name }}"
+        firstmatch: true
+        line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address }}"
+      delegate_to: localhost
+      when:
+        - inventory_group_name is defined
+        - inventory_group_name | length > 0
+        - inventory_hostname not in groups[inventory_group_name]
 
   roles:
     - sshd

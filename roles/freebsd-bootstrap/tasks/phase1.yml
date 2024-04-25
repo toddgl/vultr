@@ -12,11 +12,11 @@
   command: pw user mod {{ bootstrap_username }} -w no
 
 - name: Give sudo
-  lineinfile: "dest=/usr/local/etc/sudoers line='{{ bootstrap_username }}    ALL=(ALL)    NOPASSWD: ALL'"
+  ansible.builtin.lineinfile: "dest=/usr/local/etc/sudoers line='{{ bootstrap_username }}    ALL=(ALL)    NOPASSWD: ALL'"
 
 - name: Allow ttyless sudo
-  lineinfile: dest=/usr/local/etc/sudoers regexp=requiretty state=absent
+  ansible.builtin.lineinfile: dest=/usr/local/etc/sudoers regexp=requiretty state=absent
 
 - name: SSH key
-  authorized_key: user={{ bootstrap_username }}
+  ansible.posix.authorized_key: user={{ bootstrap_username }}
                   key="{{ lookup('file', bootstrap_sshkey) }}"
