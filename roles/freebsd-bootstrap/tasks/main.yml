@@ -1,6 +1,8 @@
 ---
 # tasks file for freebsd-bootstrap
-- include: phase1.yml
+- name: Select phase1 bootstrap option
+  ansible.builtin.include_tasks: phase1.yml
   when: bootstrap_phase == 1
-- include: phase2.yml
+- name: Select phase2 bootstrap option
+  ansible.builtin.include_tasks: phase2.yml
   when: bootstrap_phase == 2
