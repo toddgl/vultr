@@ -1,55 +1,69 @@
 ---
 - name: Disable sendmail
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: ^sendmail_enable
     line: sendmail_enable="NO"
+
 - name: Disable sendmail submit
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: ^sendmail_submit_enable
     line: sendmail_submit_enable="NO"
+
 - name: Disable sendmail outbound
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: ^sendmail_outbound_enable
     line: sendmail_outbound_enable="NO"
+
 - name: Disable sendmail msp
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: ^sendmail_msp_queue_enable
     line: sendmail_msp_queue_enable="NO"
 
 - name: Create mail alias
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/mail.rc
     regexp: ^alias root
     line: alias root root<{{ bootstrap_ssmtp_root }}>
 
-- name: Stop sendmail
-  command: killall sendmail
+- name: Check if sendmail processes are running
+  ansible.builtin.shell: ps aux | grep [s]endmail
+  register: sendmail_processes
   ignore_errors: true
+  changed_when: sendmail_processes != 0
+
+- name: Stop sendmail
+  ansible.builtin.command: killall sendmail
+  when: sendmail_processes.rc == 0
+  register: sendmail_stopped
+  changed_when: sendmail_stopped != 0
+  failed_when: "'sendmail: no process found' not in ansible_failed_result.stderr"
 
 - name: Install ssmtp
-  community.general.pkgng: name=ssmtp
+  community.general.pkgng: ssmtp
 
 - name: Create ssmtp user
-  user:
+  ansible.builtin.user:
     name: ssmtp
     group: nogroup
-    ansible.builtin.shell: /sbin/nologin
+    shell: /sbin/nologin
     home: /nonexistent
-    comment: sSMTP pseudo-user
+    comment: SSMTP pseudo-user
 
 - name: Remove password for ssmtp user
-  command: pw user mod ssmtp -w no
+  ansible.builtin.command: pw user mod ssmtp -w no
+  register: ssmpt_user_password_removed
+  change_when: ssmpt_user_password_removed != 0
 
 - name: Set config directory permissions
   ansible.builtin.file:
     path: /usr/local/etc/ssmtp
     group: wheel
     owner: ssmtp
-    mode: '4750'
+    mode: "4750"
 
 - name: Copy ssmtp config
   ansible.builtin.template:
@@ -57,14 +71,14 @@
     src: ssmtp.conf.j2
     group: wheel
     owner: ssmtp
-    mode: '640'
+    mode: "640"
 
 - name: Set ssmtp executable permissions
   ansible.builtin.file:
     path: /usr/local/sbin/ssmtp
     group: nogroup
     owner: ssmtp
-    mode: '4555'
+    mode: "4555"
 
 - name: Replace sendmail mailer
   ansible.builtin.template:
@@ -72,3 +86,4 @@
     src: mailer.conf.j2
     owner: root
     group: wheel
+    mode: "644"

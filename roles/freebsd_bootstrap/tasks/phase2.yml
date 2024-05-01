@@ -1,0 +1,29 @@
+---
+- name: Include password configuration
+  ansible.builtin.include_tasks: password.yml
+  tags: bootstrap_password
+
+- name: Include password configuration
+  ansible.builtin.include_tasks: ntp.yml
+  tags: bootstrap_ntp
+
+- name: Include cron update configuration
+  ansible.builtin.include_tasks: autoupdate.yml
+  tags: bootstrap_autoupdate
+
+- name: Include ssmtp configuration
+  ansible.builtin.include_tasks: ssmtp.yml
+  tags: bootstrap_ssmtp
+  when: bootstrap_ssmtp_server is defined
+
+- name: Include fstab configuration
+  ansible.builtin.include_tasks: fstab.yml
+  tags: bootstrap_fstab
+
+- name: Include packages configuration
+  ansible.builtin.include_tasks: packages.yml
+  tags: bootstrap_packages
+
+- name: Include locale configuration
+  ansible.builtin.include_tasks: locale.yml
+  tags: bootstrap_locale

@@ -1,0 +1,6 @@
+---
+# handlers file for freebsd-bootstrap
+- name: Update login database
+  ansible.builtin.command: cap_mkdb /etc/login.conf
+  args:
+    creates: /etc/login.conf.db

@@ -1,15 +1,26 @@
 ---
 - name: Install python
   ansible.builtin.raw: sh -c "ASSUME_ALWAYS_YES=yes pkg install python"
+  args:
+    creates: /usr/bin/python
 
 - name: Install sudo
-  community.general.pkgng: name=sudo
+  community.general.pkgng: sudo
 
 - name: Create admin user
-  ansible.builtin.user: name={{ bootstrap_username }}
+  ansible.builtin.user:
+    name: "{{ bootstrap_username }}"
+
+- name: Check if admin password is already disabled
+  ansible.builtin.shell: "set -o pipefail && getent passwd {{ bootstrap_username }} | cut -d: -f2"
+  register: admin_password_status
+  changed_when: admin_password_status.rc != 0
 
 - name: Disable admin password
   ansible.builtin.command: pw user mod {{ bootstrap_username }} -w no
+  when: "'NP' not in admin_password_status.stdout"
+  register: admin_password_disabled
+  change_when: admin_password_disabled != 0
 
 - name: Give sudo
   ansible.builtin.lineinfile:
