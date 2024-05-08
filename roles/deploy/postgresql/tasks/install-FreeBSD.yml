@@ -1,0 +1,30 @@
+---
+# tasks file for postgresql
+- name: "Install {{ postgresql_package }}"
+  community.general.pkgng:
+    name: "{{ postgresql_package }}"
+    state: "present"
+
+- name: Install postgresql_extra_packages
+  community.general.pkgng:
+    name: "databases/postgresql{{ postgresql_major_version }}-contrib"
+    state: "present"
+
+- name: "Install psycopg2"
+  community.general.pkgng:
+    name: databases/py-psycopg2
+    state: "present"
+
+- name: Enable postgresql
+  ansible.builtin.service:
+    name: "{{ postgresql_service }}"
+    enabled: "true"
+
+- name: Create /etc/rc.conf.d/postgresql
+  ansible.builtin.template:
+    src: FreeBSD.rc.j2
+    dest: /etc/rc.conf.d/postgresql
+    validate: sh -n %s
+    mode: "0644"
+  notify:
+    - Restart postgresql
