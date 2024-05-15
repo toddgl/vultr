@@ -5,4 +5,4 @@
   gather_facts: false # Should be false as python is not installed yet
 
   roles:
-    - {role: freebsd-bootstrap, bootstrap_phase: 1}
+    - { role: freebsd_bootstrap, bootstrap_phase: 1 }
