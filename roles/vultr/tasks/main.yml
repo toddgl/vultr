@@ -7,6 +7,7 @@
     - vultr_server_name|length > 0
     - vultr_server_name not in groups[vultr_inventory_group]
     - not delete
+
 - name: Delete vultr server
   ansible.builtin.include_tasks: delete-vultr-server.yml
   when:
@@ -14,10 +15,12 @@
     - vultr_server_name != ""
     - vultr_server_name|length > 0
     - delete|bool
+
 - name: Prompt for vultr server name
   ansible.builtin.debug:
     msg: Please enter a value for vultr_server_name variable
   when: vultr_server_name == ""
+
 - name: Check to see vultr server already exists
   ansible.builtin.debug:
     msg: "{{ vultr_server_name }} already exists in group vultr_inventory_group"

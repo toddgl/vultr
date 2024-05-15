@@ -1,11 +1,22 @@
 ---
+- name: Generate ssh key locally if doesn't exist
+  community.crypto.openssh_keypair:
+  path: ~/.ssh/vps_id_ed25519
+  type: ed25519
+  delegate_to: 127.0.0.1
+
 - name: Create a vultr server
   vultr.cloud.instance:
-    api_key: 7UY3YIMJZZMDOHVBPUHME6FFF4UEJOB4OBOA
-    name: "{{ vultr_server_name }}"
+    api_key: "{{ vultr_api_key }}"
+    label: "{{ vultr_server_name }}"
     hostname: "{{ vultr_server_name }}"
     os: FreeBSD 13 x64
     plan: vc2-1c-1gb
+    ddos_protection: false
+    backups: false
+    enable_ipv6: true
+    ssh_keys:
+      - "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/vps_id_ed25519.pub') }}"
     region: "{{ vultr_region }}"
     state: started
   register: output
