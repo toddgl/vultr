@@ -1,0 +1,16 @@
+# test-connection.yml
+---
+- name: Test Connection and Basic Tasks
+  hosts: "{{ host }}"
+  become: yes
+  vars_files:
+    - secrets.yml
+  vars:
+    ansible_ssh_pass: "{{ root_user_password }}"
+
+  tasks:
+    - name: Ping the target host
+      ping:
+
+    - name: Check hostname
+      command: hostname

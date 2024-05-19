@@ -1,0 +1,10 @@
+- name: Using Ansible Vault secret variables
+  hosts: all
+
+  vars:
+    var1: "this is plain text"
+
+  tasks:
+    - name: Displaying a plain text variable
+      ansible.builtin.debug:
+        var: var1

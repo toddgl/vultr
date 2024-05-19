@@ -1,0 +1,12 @@
+# test-connection.yml
+---
+- name: Test Connection and Basic Tasks
+  hosts: "{{ host }}"
+  become_user: ansible
+
+  tasks:
+    - name: Ping the target host
+      ping:
+
+    - name: Check hostname
+      command: hostname

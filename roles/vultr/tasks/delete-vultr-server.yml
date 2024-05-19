@@ -1,7 +1,7 @@
 ---
 - name: Delete vultr server
   vultr.cloud.instance:
-    api_key: 7UY3YIMJZZMDOHVBPUHME6FFF4UEJOB4OBOA
+    api_key: "{{ vultr_api_key }}"
     name: "{{ vultr_server_name }}"
     region: "{{ vultr_region }}"
     state: absent

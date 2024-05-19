@@ -3,7 +3,7 @@
 - name: Set up ssh on vultr server
   hosts: "vultr"
   gather_facts: false
-  become: false
+  become: true
   remote_user: root
   vars:
     inventory_group_name: ""
