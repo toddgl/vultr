@@ -2,13 +2,13 @@
 # tasks file for bootstrap_ansible
 - name: Set up ssh on vultr server
   hosts: "vultr"
-  gather_facts: false
+  gather_facts: true
   become: true
   remote_user: root
   vars:
     inventory_group_name: ""
 
-  tasks:
+  pre_tasks:
     - name: Print out whoami
       ansible.builtin.command:
         cmd: whoami
@@ -19,6 +19,11 @@
       ansible.builtin.debug:
         msg: "{{ result.stdout }}"
 
+    - name: Debug ansible_default_ipv4
+      ansible.builtin.debug:
+        var: ansible_default_ipv4
+
+  tasks:
     - name: Add ansible user
       ansible.builtin.user:
         name: ansible
@@ -28,7 +33,7 @@
     - name: Create regular user with wheel privileges.
       ansible.builtin.user:
         name: admin
-        password: "{{ admin_user_password | password_hash('sha512') }}"
+        password: "{{ admin_passwd | password_hash('sha512') }}"
         groups: wheel
         append: true
         shell: /bin/csh
@@ -37,7 +42,7 @@
       community.crypto.openssh_keypair:
         path: ~/.ssh/ansible_id_ed25519
         type: ed25519
-      delegate_to: 127.0.0.1
+      delegate_to: localhost
 
     - name: Add ansible ssh key
       ansible.posix.authorized_key:
@@ -50,7 +55,7 @@
         path: "{{ inventory_file }}"
         insertafter: "{{ inventory_group_name }}"
         firstmatch: true
-        line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address }}"
+        line: "{{ inventory_hostname }} ansible_host={{ ansible_default_ipv4.address | default('127.0.0.1') }}"
       delegate_to: localhost
       when:
         - inventory_group_name is defined
