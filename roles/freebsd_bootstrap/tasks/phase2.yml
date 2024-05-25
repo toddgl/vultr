@@ -3,7 +3,7 @@
   ansible.builtin.include_tasks: password.yml
   tags: bootstrap_password
 
-- name: Include password configuration
+- name: Include ntp configuration
   ansible.builtin.include_tasks: ntp.yml
   tags: bootstrap_ntp
 

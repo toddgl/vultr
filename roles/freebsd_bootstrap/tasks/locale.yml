@@ -3,14 +3,6 @@
   ansible.builtin.lineinfile:
     dest: /etc/login.conf
     insertafter: "^default:\\\\$"
-    line: "\t:charset=en_US.UTF-8:\\"
-  notify:
-    - Update login database
-
-- name: Set default locale
-  ansible.builtin.lineinfile:
-    dest: /etc/login.conf
-    insertafter: "^default:\\\\$"
-    line: "\t:lang=en_NZ.UTF-8:\\"
+    line: "\t:charset=en_NZ.UTF-8:\\"
   notify:
     - Update login database

@@ -1,11 +1,13 @@
 ---
 - name: Install python
-  ansible.builtin.raw: sh -c "ASSUME_ALWAYS_YES=yes pkg install python"
+  ansible.builtin.raw: sh -c "ASSUME_ALWAYS_YES=yes pkg install python39"
   args:
-    creates: /usr/bin/python
+    creates: /usr/local/bin/python3
 
 - name: Install sudo
-  community.general.pkgng: sudo
+  community.general.pkgng:
+    name: sudo
+    state: present
 
 - name: Create admin user
   ansible.builtin.user:
@@ -17,21 +19,22 @@
   changed_when: admin_password_status.rc != 0
 
 - name: Disable admin password
-  ansible.builtin.command: pw user mod {{ bootstrap_username }} -w no
+  ansible.builtin.command:
+    cmd: "pw user mod {{ bootstrap_username }} -w no"
   when: "'NP' not in admin_password_status.stdout"
   register: admin_password_disabled
-  change_when: admin_password_disabled != 0
+  changed_when: admin_password_disabled != 0
 
-- name: Give sudo
+- name: Give admin sudo
   ansible.builtin.lineinfile:
-  dest: /usr/local/etc/sudoers
-  line: "{{ bootstrap_username }}    ALL=(ALL)    NOPASSWD: ALL"
+    path: /usr/local/etc/sudoers
+    line: "{{ bootstrap_username }}    ALL=(ALL)    NOPASSWD: ALL"
 
 - name: Allow ttyless sudo
   ansible.builtin.lineinfile:
-  dest: /usr/local/etc/sudoers
-  regexp: requiretty
-  state: absent
+    path: /usr/local/etc/sudoers
+    regexp: requiretty
+    state: absent
 
 - name: SSH key
   ansible.posix.authorized_key:

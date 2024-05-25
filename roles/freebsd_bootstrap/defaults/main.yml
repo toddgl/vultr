@@ -1,4 +1,4 @@
 ---
 # defaults file for freebsd-bootstrap
 bootstrap_username: admin
-bootstrap_sshkey: ~/.ssh/vps_id_rsa.pub
+bootstrap_sshkey: ~/.ssh/ansible_id_ed25519.pub
