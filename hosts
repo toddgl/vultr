@@ -1,11 +1,9 @@
 localhost  ansible_host=127.0.0.1 ansible_connection=local ansible_user=glenn ansible_ssh_key=/home/glenn/.ssh/ansible_id_ed25519
 
 [git]
-ansible-demo ansible_host=149.28.171.181
 
 [nameservers]
 ruru
 
 [vultr]
-ansible-demo ansible_host=149.28.171.181
 
