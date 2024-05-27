@@ -21,4 +21,4 @@
   ansible.builtin.lineinfile:
     path: "{{ inventory_file }}"
     insertafter: "{{ vultr_inventory_group }}"
-    line: "{{ vultr_server_name }} ansible_host={{ output.vultr_instance.main_ip }} ansible_ssh_private_key_file=/home/glenn/.ssh/ansible_id_ed25519"
+    line: "{{ vultr_server_name }} ansible_host={{ output.vultr_instance.main_ip }} ansible_ssh_private_key_file=/home/glenn/.ssh/id_ed25519"

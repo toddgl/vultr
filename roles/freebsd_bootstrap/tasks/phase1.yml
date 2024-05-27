@@ -12,6 +12,10 @@
 - name: Create admin user
   ansible.builtin.user:
     name: "{{ bootstrap_username }}"
+    password: "{{ admin_passwd | password_hash('sha512') }}"
+    groups: wheel
+    append: true
+    shell: /bin/csh
 
 - name: Check if admin password is already disabled
   ansible.builtin.shell: "set -o pipefail && getent passwd {{ bootstrap_username }} | cut -d: -f2"
