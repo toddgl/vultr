@@ -1,7 +1,11 @@
 ---
 - name: Boostrap FreeBSD phase 1
   hosts: vultr
-  remote_user: root
+  become: yes
+  vars_files:
+    - secrets.yml
+  vars:
+    ansible_ssh_pass: "{{ root_passwd }}"
   gather_facts: false # Should be false as python is not installed yet
 
   roles:

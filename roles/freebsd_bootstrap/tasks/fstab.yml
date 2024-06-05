@@ -1,18 +1,15 @@
 ---
 - name: Add proc to fstab
   ansible.builtin.lineinfile:
-    dest: /etc/fstab
+    path: /etc/fstab
     regexp: ^proc
     line: proc /proc procfs rw 0 0
 
 - name: Add fdesc to fstab
   ansible.builtin.lineinfile:
-    dest: /etc/fstab
+    path: /etc/fstab
     regexp: ^fdesc
     line: fdesc /dev/fd fdescfs rw 0 0
 
 - name: Mount all
-  ansible>builtin.command: mount -a
-  args:
-    warn: false
-  become: true
+  ansible.builtin.command: mount -a

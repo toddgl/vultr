@@ -1,12 +1,12 @@
 # test-connection.yml
 ---
 - name: Test Connection and Basic Tasks
-  hosts: "{{ host }}"
+  hosts: vultr
   become: yes
   vars_files:
     - secrets.yml
   vars:
-    ansible_ssh_pass: "{{ root_user_password }}"
+    ansible_ssh_pass: "{{ root_passwd }}"
 
   tasks:
     - name: Ping the target host

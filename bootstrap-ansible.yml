@@ -24,29 +24,15 @@
         var: ansible_default_ipv4
 
   tasks:
-    - name: Add ansible user
-      ansible.builtin.user:
-        name: ansible
-        password: "*"
-        groups: wheel
-
-    - name: Create regular user with wheel privileges.
-      ansible.builtin.user:
-        name: admin
-        password: "{{ admin_passwd | password_hash('sha512') }}"
-        groups: wheel
-        append: true
-        shell: /bin/csh
-
     - name: Generate ssh key locally if doesn't exist
       community.crypto.openssh_keypair:
         path: ~/.ssh/id_ed25519
         type: ed25519
       delegate_to: localhost
 
-    - name: Add ansible ssh key
+    - name: Add root ssh key
       ansible.posix.authorized_key:
-        user: ansible
+        user: root
         state: present
         key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
 

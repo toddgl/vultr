@@ -43,4 +43,5 @@
 - name: SSH key
   ansible.posix.authorized_key:
     user: "{{ bootstrap_username }}"
+    state: present
     key: "{{ lookup('file', bootstrap_sshkey) }}"

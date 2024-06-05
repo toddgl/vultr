@@ -10,12 +10,14 @@
     backups: false
     enable_ipv6: true
     region: "{{ vultr_region }}"
+    ssh_keys:
+      - ruru_ed25519
     state: started
   register: output
 
 - name: Print out ipv4 address
   ansible.builtin.debug:
-    msg: " {{ output.vultr_instance.main_ip }}"
+    msg: "{{ output.vultr_instance.main_ip }}"
 
 - name: Add server name to inventory group
   ansible.builtin.lineinfile:

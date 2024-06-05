@@ -1,9 +1,8 @@
 ---
 - name: Boostrap FreeBSD phase 2
   hosts: vultr
-  # become_user: root
+  become: true
   remote_user: admin # Should be the same as bootstrap_username
-  become: false
 
   roles:
     - { role: freebsd_bootstrap, bootstrap_phase: 2 }
