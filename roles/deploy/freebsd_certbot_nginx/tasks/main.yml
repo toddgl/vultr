@@ -1,0 +1,46 @@
+---
+# tasks file for freebsd_certbot_nginx
+- name: Update FreeBSD pkg repository
+  become: true
+  community.general.pkgng:
+    name: "*"
+    state: latest
+
+- name: Install Nginx
+  become: true
+  community.general.pkgng:
+    name: "{{ freebsd_nginx_pkg_name }}"
+    state: present
+
+- name: Install py-certbot-nginx
+  become: true
+  community.general.pkgng:
+    name: "{{ freebsd_certbot_nginx_pkg_name }}"
+    state: present
+
+- name: Enable Nginx service
+  become: true
+  community.general.sysrc:
+    name: nginx_enable
+    value: "YES"
+
+- name: Start Nginx service
+  become: true
+  ansible.builtin.service:
+    name: nginx
+    state: started
+
+- name: Enable Certbot in cron to renew certificates
+  become: true
+  ansible.builtin.cron:
+    name: "certbot renew"
+    job: "/usr/local/bin/certbot renew --quiet"
+    user: root
+    minute: 0
+    hour: 0
+
+- name: Obtain SSL certificate for Nginx (Example domain mbfairsystem)
+  become: true
+  ansible.builtin.command: "/usr/local/bin/certbot --nginx -d mbfairsystem.org --non-interactive --agree-tos -m convener@martinboroughfair.org.nz"
+  args:
+    creates: "/usr/local/etc/letsencrypt/live/mbfairsystem/fullchain.pem"

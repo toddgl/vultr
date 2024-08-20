@@ -5,35 +5,28 @@
     dest: "{{ projdir }}"
     version: master
 
-- name: Install production.py
-  ansible.builtin.template:
-    src: production.py
-    dest: "{{ projdir }}/config/settings/production.py"
-    mode: '755'
-    become_user: "{{ user_name }}"
-
 - name: Create virtualenv and run pip3 install -r requirement.freeze
   ansible.builtin.pip:
-    virtualenv: "/home/glenn/bin/fairsystemproject/venv"
+    virtualenv: "/usr/home/admin/bin/fairsystemproject/venv"
     requirements: "{{ projdir }}/bin/python3 -m venv"
 
 - name: Run makemigrations
   community.general.django_manage:
     command: makemigrations
     app_path: "{{ projdir }}"
-    settings: "config.settings.production"
+    settings: "config.settings.py"
     virtualenv: "{{ projdir }}/venv"
 
 - name: Run migrate
   community.general.django_manage:
     command: migrate
     app_path: "{{ projdir }}"
-    settings: "config.settings.production"
+    settings: "config.settings.py"
     virtualenv: "{{ projdir }}/venv"
 
 - name: Run collectstatic
   community.general.django_manage:
     command: collectstatic
     app_path: "{{ projdir }}"
-    settings: "config.settings.production"
+    settings: "config.settings.py"
     virtualenv: "{{ projdir }}/venv"

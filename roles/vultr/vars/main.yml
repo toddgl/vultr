@@ -1,7 +1,7 @@
 ---
 # vars file for vultr
-vultr_server_name: ""
+vultr_server_name: "mbfairsystem"
 vultr_region: syd
-vultr_ssh_key: vps_id_rsa
+vultr_ssh_key: id_ed25519
 vultr_inventory_group: vultr
 delete: false

@@ -4,18 +4,10 @@
 user_name: admin
 sys_packages:
   [
-    "nginx",
-    "curl",
-    "wget",
-    "vim",
     "git",
     "tree",
-    "ufw",
-    "whois",
-    "python3-virtualenv",
-    "python3-pip",
-    "python3-dev",
-    "libpq-dev",
+    "py311-virtualenv",
+    "py311-pip",
   ]
 project_repo: "https://github.com/toddgl/FairSystemProject"
 app_name: fairsystem-app
@@ -25,8 +17,9 @@ gnuicorn_port: 8000
 projdir: "/home/{{ user_name }}/bin/fairsystem_proj"
 etcdir: "/etc/local/fairsystem/"
 app_dir: "/home/{{ user_name }}/{{ app_name }}"
-django_secret_key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-server_IP: XXX.XXX.XXX.XX
+django_secret_key:  "{{ django_secret_key }}"
+server_IP: 149.28.188.154
+vultr_server_name: mbfairsystem
 fixture_path: /home/user/{{ app_dir }}/{{ app_name}}/fixtures/
 django_superuser: admin
 django_superuser_password: "{{ django_superuser_password }}"

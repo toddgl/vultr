@@ -3,14 +3,8 @@
   hosts: vultr
   gather_facts: false
   become: true
-  vars_files:
-    - vars/defaults.yml
+  remote_user: admin # Should be the same as bootstrap_username
+
   roles:
-    - role: app
-      tags: [app]
-    - role: nginx
-      tags: [ngnix]
     - role: postgresql
       tags: [postgresql]
-    - role: gunicorn
-      tags: [gunicorn]

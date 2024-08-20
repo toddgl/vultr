@@ -6,7 +6,7 @@
   become: true
   remote_user: root
   vars:
-    inventory_group_name: ""
+    inventory_group_name: "git"
 
   pre_tasks:
     - name: Print out whoami

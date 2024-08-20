@@ -1,11 +1,11 @@
 ---
 # vars file for postgresql
-postgresql_major_version: 13
-postgresql_user: postgres
-postgresql_group: postgres
-postgresql_db_dir: "/var/db/postgres/data{{ postgresql_major_version }}"
-postgresql_service: postgresql
-postgresql_package: "databases/postgresql{{ postgresql_major_version }}-server"
-postgresql_home_dir: /var/db/postgres
-postgresql_default_auth_method: scram-sha-256
-postgresql_default_login_db: postgres
+deploy_postgresql_major_version: 15
+deploy_postgresql_user: postgres
+deploy_postgresql_group: postgres
+deploy_postgresql_db_dir: "/var/db/postgres/data{{ deploy_postgresql_major_version }}"
+deploy_postgresql_service: postgresql
+deploy_postgresql_package: "databases/postgresql{{ deploy_postgresql_major_version }}-server"
+deploy_postgresql_home_dir: /var/db/postgres
+deploy_postgresql_default_auth_method: scram-sha-256
+deploy_postgresql_default_login_db: postgres

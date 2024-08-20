@@ -1,2 +1,3 @@
 ---
 # vars file for freebsd_bootstrap
+bootstrap_username: admin

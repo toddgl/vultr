@@ -1,23 +1,23 @@
 ---
 # tasks file for postgresql
-- name: "Install {{ postgresql_package }}"
+- name: "Install psycopg"
   community.general.pkgng:
-    name: "{{ postgresql_package }}"
+    name: databases/py-psycopg
+    state: "present"
+
+- name: "Install {{ deploy_postgresql_package }}"
+  community.general.pkgng:
+    name: "{{ deploy_postgresql_package }}"
     state: "present"
 
 - name: Install postgresql_extra_packages
   community.general.pkgng:
-    name: "databases/postgresql{{ postgresql_major_version }}-contrib"
-    state: "present"
-
-- name: "Install psycopg2"
-  community.general.pkgng:
-    name: databases/py-psycopg2
+    name: "databases/postgresql{{ deploy_postgresql_major_version }}-contrib"
     state: "present"
 
 - name: Enable postgresql
   ansible.builtin.service:
-    name: "{{ postgresql_service }}"
+    name: "{{ deploy_postgresql_service }}"
     enabled: "true"
 
 - name: Create /etc/rc.conf.d/postgresql

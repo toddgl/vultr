@@ -3,9 +3,9 @@
 - name: Install/upgrade
   ansible.builtin.include_tasks: "install-FreeBSD.yml"
 
-- name: "See if postgresql db_dir/base exists"
+- name: "See if postgresql db_dir exists"
   ansible.builtin.stat:
-    path: "{{ deploy_postgresql_db_dir }}/base"
+    path: "{{ deploy_postgresql_db_dir }}"
   register: __stat_postgresql_db_dir
 
 - name: Create initial password file

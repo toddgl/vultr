@@ -2,5 +2,5 @@
 # handlers file for postgresql
 - name: Restart postgresql
   ansible.builtin.service:
-    name: "{{ postgresql_service }}"
+    name: "{{ deploy_postgresql_service }}"
     state: restarted

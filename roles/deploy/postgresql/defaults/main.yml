@@ -1,23 +1,23 @@
 ---
 # defaults file for postgresql
-postgresql_extra_packages: []
-postgresql_conf_dir: "{% if ansible_os_family == 'Debian' %}/etc/postgresql/{{ postgresql_major_version }}/main{% else %}{{ postgresql_db_dir }}{% endif %}"
-postgresql_conf_file: "{{ postgresql_conf_dir }}/postgresql.conf"
-postgresql_config: ""
-postgresql_pg_hba_conf_file: "{{ postgresql_conf_dir }}/pg_hba.conf"
-postgresql_pg_hba_config: ""
-postgresql_flags: ""
-postgresql_initdb_flags: "--encoding=utf-8 --lc-collate=C --locale=en_NZ.UTF-8"
-postgresql_debug: "false"
-postgresql_initial_password: ""
-postgresql_initial_password_file: "{{ postgresql_home_dir }}/.pw"
-postgresql_default_login_user: "{{ postgresql_user }}"
-postgresql_default_login_password: "{{ postgresql_initial_password }}"
-postgresql_default_login_host: 127.0.0.1
-postgresql_users: [
+deploy_postgresql_extra_packages: []
+deploy_postgresql_conf_dir: "{{ deploy_postgresql_db_dir }}"
+deploy_postgresql_conf_file: "{{ deploy_postgresql_conf_dir }}/postgresql.conf"
+deploy_postgresql_config: ""
+deploy_postgresql_pg_hba_conf_file: "{{ deploy_postgresql_conf_dir }}/pg_hba.conf"
+deploy_postgresql_pg_hba_config: ""
+deploy_postgresql_flags: ""
+deploy_postgresql_initdb_flags: "--encoding=utf-8 --lc-collate=C --locale=en_NZ.UTF-8"
+deploy_postgresql_debug: "false"
+deploy_postgresql_initial_password: ""
+deploy_postgresql_initial_password_file: "{{ deploy_postgresql_home_dir }}/.pw"
+deploy_postgresql_default_login_user: "{{ deploy_postgresql_user }}"
+deploy_postgresql_default_login_password: "{{ deploy_postgresql_initial_password }}"
+deploy_postgresql_default_login_host: 127.0.0.1
+deploy_postgresql_users: [
 "admin"
 ]
-postgresql_databases: [
+deploy_postgresql_databases: [
 "fairsystem_db"
 ]
-postgresql_initdb_env: {}
+deploy_postgresql_initdb_env: {}

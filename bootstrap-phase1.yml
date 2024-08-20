@@ -1,12 +1,14 @@
 ---
-- name: Boostrap FreeBSD phase 1
+- name: Bootstrap FreeBSD phase 1
   hosts: vultr
-  become: yes
+  become: true
   vars_files:
     - secrets.yml
   vars:
     ansible_ssh_pass: "{{ root_passwd }}"
+    inventory_group_name: "git"
   gather_facts: false # Should be false as python is not installed yet
 
   roles:
     - { role: freebsd_bootstrap, bootstrap_phase: 1 }
+    - sshd

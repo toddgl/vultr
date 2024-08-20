@@ -3,14 +3,14 @@
   ansible.builtin.file:
     path: "{{ etcdir }}"
     state: directory
-    mode: '755'
+    mode: "755"
 - name: Copy gunicorn configs
   ansible.builtin.template:
-    src: gunicorn.conf.py
-    dest: "{{ etcdir }}/gunicorn.conf.py"
-    mode: '755'
+    src: gunicorn_conf.py
+    dest: "{{ etcdir }}/gunicorn_conf.py"
+    mode: "755"
 - name: Copy gunicorn environment file
   ansible.builtin.template:
     src: gunicorn.env
     dest: "{{ etcdir }}/gunicorn.env"
-    mode: '755'
+    mode: "755"

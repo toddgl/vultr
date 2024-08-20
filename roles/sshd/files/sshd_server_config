@@ -120,5 +120,5 @@ Subsystem	sftp	/usr/libexec/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-AllowUsers glenn
+AllowUsers admin
 

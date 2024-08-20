@@ -1,0 +1,6 @@
+---
+- name: Test the cerbot installation
+- hosts: localhost
+  remote_user: root
+  roles:
+    - freebsd_certbot_nginx

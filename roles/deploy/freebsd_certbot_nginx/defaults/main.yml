@@ -1,0 +1,4 @@
+---
+# defaults file for freebsd_certbot_nginx
+freebsd_certbot_nginx_pkg_name: "py311-certbot-nginx"
+freebsd_nginx_pkg_name: "nginx"
