@@ -7,8 +7,8 @@
 
 - name: Create virtualenv and run pip3 install -r requirement.freeze
   ansible.builtin.pip:
-    virtualenv: "/usr/home/admin/bin/fairsystemproject/venv"
-    requirements: "{{ projdir }}/bin/python3 -m venv"
+    virtualenv: "{{ projdir }}/venv"
+    requirements: "{{ projdir }}/requirements.txt"
 
 - name: Run makemigrations
   community.general.django_manage:
@@ -21,12 +21,12 @@
   community.general.django_manage:
     command: migrate
     app_path: "{{ projdir }}"
-    settings: "config.settings.py"
+    settings: "config.settings.base"
     virtualenv: "{{ projdir }}/venv"
 
 - name: Run collectstatic
   community.general.django_manage:
     command: collectstatic
     app_path: "{{ projdir }}"
-    settings: "config.settings.py"
+    settings: "config.settings.base"
     virtualenv: "{{ projdir }}/venv"

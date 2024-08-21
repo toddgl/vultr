@@ -1,8 +1,8 @@
 ---
 # tasks file for postgresql
-- name: "Install psycopg"
+- name: "Install psycopg2"
   community.general.pkgng:
-    name: databases/py-psycopg
+    name: databases/py-psycopg2
     state: "present"
 
 - name: "Install {{ deploy_postgresql_package }}"

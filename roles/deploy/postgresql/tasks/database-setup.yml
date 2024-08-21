@@ -1,0 +1,27 @@
+---
+# tasks file for ansible-role-postgresql
+- name: Check utility present
+  community.general.pkgng:
+    name: py311-psycopg2
+    state: present
+
+- name: Create a new database with name "{{ deploy_db_name }}"
+  community.postgresql.postgresql_db:
+    name: "{{ deploy_db_name }}"
+
+- name: Create owner for database "fairsystem_db" with SCRAM-hashed password
+  community.postgresql.postgresql_user:
+    name: "{{ deploy_db_user }}"
+    password: "{{ database_password }}"
+  environment:
+    PGOPTIONS: "-c password_encryption=scram-sha-256"
+
+- name: Grant db user access to db
+  community.postgresql.postgresql_privs:
+    type: database
+    database: "{{ deploy_db_name }}"
+    roles: "{{ deploy_db_user }}"
+    grant_option: true
+    privs: all
+  notify:
+    - Restart postgresql

@@ -46,3 +46,6 @@
   ansible.builtin.service:
     name: "{{ deploy_postgresql_service }}"
     state: started
+
+- name: Configure database
+  ansible.builtin.include_tasks: "database-setup.yml"

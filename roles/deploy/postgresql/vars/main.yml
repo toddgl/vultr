@@ -9,3 +9,5 @@ deploy_postgresql_package: "databases/postgresql{{ deploy_postgresql_major_versi
 deploy_postgresql_home_dir: /var/db/postgres
 deploy_postgresql_default_auth_method: scram-sha-256
 deploy_postgresql_default_login_db: postgres
+deploy_db_name: fairsystem_db
+deploy_db_user: admin

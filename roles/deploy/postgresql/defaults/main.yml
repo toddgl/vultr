@@ -14,10 +14,4 @@ deploy_postgresql_initial_password_file: "{{ deploy_postgresql_home_dir }}/.pw"
 deploy_postgresql_default_login_user: "{{ deploy_postgresql_user }}"
 deploy_postgresql_default_login_password: "{{ deploy_postgresql_initial_password }}"
 deploy_postgresql_default_login_host: 127.0.0.1
-deploy_postgresql_users: [
-"admin"
-]
-deploy_postgresql_databases: [
-"fairsystem_db"
-]
 deploy_postgresql_initdb_env: {}
