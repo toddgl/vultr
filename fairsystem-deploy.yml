@@ -6,5 +6,5 @@
   remote_user: admin # Should be the same as bootstrap_username
 
   roles:
-    - role: postgresql
-      tags: [postgresql]
+    - role: gunicorn
+      tags: [gunicorn ]
