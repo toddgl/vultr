@@ -1,0 +1,3 @@
+---
+# vars file for gunicrn
+app_name: "gunicorn"

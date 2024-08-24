@@ -1,16 +1,16 @@
 ---
 - name: Create main dirs for {{ etcdir }}
   ansible.builtin.file:
-    path: "{{ etcdir }}"
+    path: "{{ etcdir }}/{{ app_name }}"
     state: directory
     mode: "755"
 - name: Copy gunicorn configs
   ansible.builtin.template:
     src: gunicorn_conf.py
-    dest: "{{ etcdir }}/gunicorn_conf.py"
+    dest: "{{ etcdir }}/{{ app_name }}/gunicorn_conf.py"
     mode: "755"
 - name: Copy gunicorn environment file
   ansible.builtin.template:
     src: gunicorn.env
-    dest: "{{ etcdir }}/gunicorn.env"
+    dest: "{{ etcdir }}/{{ app_name }}/gunicorn.env"
     mode: "755"

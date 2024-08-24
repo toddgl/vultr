@@ -14,7 +14,7 @@
   community.general.django_manage:
     command: makemigrations
     app_path: "{{ projdir }}"
-    settings: "config.settings.py"
+    settings: "config.settings.base"
     virtualenv: "{{ projdir }}/venv"
 
 - name: Run migrate

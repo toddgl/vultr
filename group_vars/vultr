@@ -14,13 +14,11 @@ app_name: fairsystem-app
 django_project_name: fairsystem_proj
 ansible_python_interpreter: /usr/local/bin/python3
 gnuicorn_port: 8000
-projdir: "/home/{{ user_name }}/bin/fairsystem_proj"
-etcdir: "/etc/local/fairsystem/"
-app_dir: "/home/{{ user_name }}/{{ app_name }}"
+projdir: "/home/{{ user_name }}/www/fairsystem"
+etcdir: "/usr/local/etc/"
 django_secret_key:  "{{ django_secret_key }}"
 server_IP: 149.28.188.154
 vultr_server_name: mbfairsystem
-fixture_path: /home/user/{{ app_dir }}/{{ app_name}}/fixtures/
 django_superuser: admin
 django_superuser_password: "{{ django_superuser_password }}"
 domain_name: martinboroughfair.org.nz
