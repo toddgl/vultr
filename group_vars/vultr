@@ -10,11 +10,11 @@ sys_packages:
     "py311-pip",
   ]
 project_repo: "https://github.com/toddgl/FairSystemProject"
-app_name: fairsystem-app
+app_name: fairsystem
 django_project_name: fairsystem_proj
 ansible_python_interpreter: /usr/local/bin/python3
 gnuicorn_port: 8000
-projdir: "/home/{{ user_name }}/www/fairsystem"
+projdir: "/usr/home/{{ user_name }}/www/{{ app_name }}"
 etcdir: "/usr/local/etc/"
 django_secret_key:  "{{ django_secret_key }}"
 server_IP: 149.28.188.154

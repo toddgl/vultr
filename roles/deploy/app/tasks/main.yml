@@ -5,6 +5,12 @@
     dest: "{{ projdir }}"
     version: master
 
+- name: Copy .env file
+  ansible.builtin.template:
+    src: production.py
+    dest: "{{ projdir }}/.env"
+    mode: "666"
+
 - name: Create virtualenv and run pip3 install -r requirement.freeze
   ansible.builtin.pip:
     virtualenv: "{{ projdir }}/venv"
