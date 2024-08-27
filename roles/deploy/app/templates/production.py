@@ -12,7 +12,7 @@ SECRET_KEY='{{ django_secret_key }}'
 # Database connection: keep the database connection credentials used in production secret!
 DATABASE_NAME='fairsystem_db'
 DATABASE_USER='admin'
-DATABASE_PASS='{{ database_pasword }}'
+DATABASE_PASS='{{ database_password }}'
 
 # A list of all the people who get code error notifications.
 ADMIN_LIST="[('Glenn Todd', 'g.todd@internet.co.nz')]"
@@ -26,13 +26,13 @@ SERVER_EMAIL='convener@martinboroughfair.org.nz'
 
 # Stripe setup Test
 STRIPE_PUBLISHABLE_KEY_TEST='{{ stripe_publishable_key_test }}'
-STRIPE_SECRET_KEY_TEST= '{{ stipe_secret_key_test }}'
+STRIPE_SECRET_KEY_TEST= '{{ stripe_secret_key_test }}'
 STRIPE_WEBHOOK_SECRET_TEST= '{{stripe_webhook_secret_test }}'
 
 # Stripe setup Production
 STRIPE_PUBLISHABLE_KEY= '{{ stripe_publishable_key }}'
 STRIPE_SECRET_KEY= '{{ stripe_secret_key }}'
-STRIPE_WEBHOOK_SECRET= '{{ stipe_webhook_secret }}'
+STRIPE_WEBHOOK_SECRET= '{{ stripe_webhook_secret }}'
 
 # Mailgun setup Production
 MAILGUN_API_KEY='{{ mailgun_api_key }}'
