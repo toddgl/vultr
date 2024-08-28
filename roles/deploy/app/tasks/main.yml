@@ -3,6 +3,7 @@
   ansible.builtin.git:
     repo: "{{ project_repo }}"
     dest: "{{ projdir }}"
+    force: true
     version: master
 
 - name: Copy .env file
@@ -17,22 +18,13 @@
     requirements: "{{ projdir }}/requirements.txt"
 
 - name: Run makemigrations
-  community.general.django_manage:
-    command: makemigrations
-    app_path: "{{ projdir }}"
-    settings: "config.settings.base"
-    virtualenv: "{{ projdir }}/venv"
+  ansible.builtin.command:
+    cmd: "{{ projdir }}/venv/bin/python3 {{ projdir }}/manage.py makemigrations --settings=config.settings"
 
 - name: Run migrate
-  community.general.django_manage:
-    command: migrate
-    app_path: "{{ projdir }}"
-    settings: "config.settings.base"
-    virtualenv: "{{ projdir }}/venv"
+  ansible.builtin.command:
+    cmd: "{{ projdir }}/venv/bin/python3 {{ projdir }}/manage.py migrate --settings=config.settings"
 
 - name: Run collectstatic
-  community.general.django_manage:
-    command: collectstatic
-    app_path: "{{ projdir }}"
-    settings: "config.settings.base"
-    virtualenv: "{{ projdir }}/venv"
+  ansible.builtin.command:
+    cmd: "{{ projdir }}/venv/bin/python3 {{ projdir }}/manage.py collectstatic --settings=config.settings"
