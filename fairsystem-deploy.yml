@@ -6,5 +6,5 @@
   remote_user: admin # Should be the same as bootstrap_username
 
   roles:
-    - role: app
-      tags: [app]
+    - role: git
+      tags: [git]

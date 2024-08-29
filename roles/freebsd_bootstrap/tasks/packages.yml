@@ -5,3 +5,11 @@
   with_items:
     - rsync
     - py311-certbot-nginx
+    - tree
+    - rust
+    - openjpeg
+    - cmake-core
+    - gobject-introspection
+    - cairo
+    - pango
+    - webfonts

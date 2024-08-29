@@ -1,0 +1,8 @@
+---
+# tasks file for git
+- name: Clone django project respository
+  ansible.builtin.git:
+    repo: "{{ project_repo }}"
+    dest: "{{ projdir }}"
+    force: true
+    version: master
