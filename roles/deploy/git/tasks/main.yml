@@ -6,3 +6,12 @@
     dest: "{{ projdir }}"
     force: true
     version: master
+
+- name: Recursively change ownership of the cloned directory
+  ansible.builtin.file:
+    path: "{{ projdir }}/fairsystem"
+    state: directory
+    recurse: yes
+    owner: admin
+    group: admin
+    mode: "0775"

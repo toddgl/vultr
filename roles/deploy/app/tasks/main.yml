@@ -6,6 +6,15 @@
     force: true
     version: master
 
+- name: Recursively change ownership of the cloned directory
+  ansible.builtin.file:
+    path: "{{ projdir }}/fairsystem"
+    state: directory
+    recurse: yes
+    owner: www
+    group: www
+    mode: "0775"
+
 - name: Copy .env file
   ansible.builtin.template:
     src: production.py

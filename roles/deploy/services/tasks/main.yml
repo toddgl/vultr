@@ -1,0 +1,33 @@
+---
+# tasks file for services
+- name: Copy service file to {{ etcdir }}/rc.d/gunicorn
+  ansible.builtin.template:
+    src: gunicorn_service.j2
+    dest: "{{ etcdir }}/rc.d/gunicorn"
+    mode: "751"
+
+- name: Enable gunic0rn service at boot
+  community.general.sysrc:
+    name: gunicorn_enable
+    value: YES
+
+- name: Start the gunicorn service
+  ansible.builtin.service:
+    name: gunicorn
+    state: started
+
+- name: Copy service file to {{ etcdir }}/rc.d/fairsystem
+  ansible.builtin.template:
+    src: fairsystem_service.j2
+    dest: "{{ etcdir }}/rc.d/fairsystem"
+    mode: "751"
+
+- name: Enable the fairsystem service at boot
+  community.general.sysrc:
+    name: fairsystem_enable
+    value: YES
+
+- name: Start the fairsystem service
+  ansible.builtin.service:
+    name: fairsystem
+    state: started
