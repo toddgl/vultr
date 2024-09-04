@@ -1,2 +1,23 @@
 ---
 # handlers file for git
+- name: Recursively change ownership of the cloned directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ projdir }}/fairsystem"
+    state: directory
+    recurse: yes
+    owner: admin
+    group: admin
+    mode: "0775"
+
+- name: cycle gunicorn
+  become: true
+  ansible.builtin.service:
+    name: gunicorn
+    state: restarted
+
+- name: cycle nginx
+  become: true
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
