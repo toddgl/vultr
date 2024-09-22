@@ -4,10 +4,6 @@
     path: "{{ etcdir }}/{{ app_name }}"
     state: directory
     mode: "755"
-- name: Ensure gunicorn is installed.
-  community.general.pkgng:
-    name: "{{ gunicorn_package_name }}"
-    state: present
 - name: Copy gunicorn configs
   ansible.builtin.template:
     src: gunicorn_conf.py
