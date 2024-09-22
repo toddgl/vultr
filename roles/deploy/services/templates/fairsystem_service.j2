@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# PROVIDE: fai:wwwrsystem
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="fairsystem"
+rcvar="fairsystem_enable"
+
+pidfile="/var/run/${name}.pid"
+logfile="/var/log/${name}.log"
+command="/usr/sbin/daemon"
+gunicorn_command="/usr/home/admin/www/fairsystem/venv/bin/gunicorn"
+gunicorn_flags="-w 3 -b 127.0.0.1:8000 {{ projdir }}.config.wsgi:application"
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+restart_cmd="${name}_restart"
+
+fairsystem_start()
+{
+    echo "Starting ${name}..."
+    /usr/sbin/daemon -p ${pidfile} -u admin -o ${logfile} ${gunicorn_command} ${gunicorn_flags}
+}
+
+fairsystem_stop()
+{
+    echo "Stopping ${name}..."
+    kill `cat ${pidfile}`
+}
+
+fairsystem_restart()
+{
+    fairsystem_stop
+    sleep 2
+    fairsystem_start
+}
+
+load_rc_config $name
+run_rc_command "$1"

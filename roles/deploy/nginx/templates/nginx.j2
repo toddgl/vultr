@@ -1,10 +1,90 @@
 server {
-    server_name  mbfairsystem.org;
+    server_name mbfairsystem.org;
     access_log /var/log/nginx/domain.com.access.log;
     error_log /var/log/nginx/domain.com.error.log;
     listen       80;
 
     location / {
         root   /usr/home/admin/www/mbfairsystem;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name mbfairsystem.org;
+
+    # Path to the root on mbfairsystem application
+    root   /usr/home/admin/www/mbfairsystem;
+
+    ssl_certificate /usr/local/etc/letsencrypt/live/mbfairsystem.org/fullchain.pem;
+    ssl_certificate_key /usr/local/etc/letsencrypt/live/mbfairsystem.org/privkey.pem;
+
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    # Serve media files
+    location /media/ {
+        alias /usr/home/admin/www/mbfairsystem/media/;
+    }
+
+    # Serve static files (if collected)
+    location /static/ {
+        alias /usr/home/admin/www/mbfairsystem/static/;
+    }
+
+    # Pass requests to Gunicorn
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/tmp/gunicorn.sock;
+    }
+
+    # Security headers
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options DENY;
+    add_header X-XSS-Protection "1; mode=block";
+
+    # Client max body size (adjust if needed)
+    client_max_body_size 4G;
+
+    # Error pages (optional)
+    error_page 500 502 503 504 /500.html;
+    location = /500.html {
+        root "{{ prodir}}"/static/;
+    }
+}
+
+    # Pass requests to Gunicorn
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/tmp/gunicorn.sock;
+    }
+
+    # Security headers
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options DENY;
+    add_header X-XSS-Protection "1; mode=block";
+
+    # Client max body size (adjust if needed)
+    client_max_body_size 1G;
+
+    # Error pages (500)
+    error_page 500 502 503 504 /500.html;
+    location = /500.html {
+        root /usr/home/admin/www/mbfairsystem/static/;
+    }
+
+    # Error pages (404)
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/home/admin/www/mbfairsystem/static/;
     }
 }

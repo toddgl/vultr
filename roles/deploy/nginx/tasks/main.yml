@@ -16,7 +16,7 @@
 - name: Copy the Nginx configuration file to the host
   ansible.builtin.template:
     src: templates/nginx.j2
-    dest: /usr/local/etc/nginx/nginx.conf
+    dest: /usr/local/etc/nginx/servers/mbfairsystem.conf
     mode: "755"
 - name: Create logs directory.
   ansible.builtin.file:
@@ -35,3 +35,10 @@
     src: templates/nginx.j2
     dest: /usr/local/etc/servers/mbfairsystem.conf
     mode: "755"
+
+- name: check nginx configuration
+  become: yes
+  command: "nginx -t"
+  register: nginx_verify_config
+  check_mode: no
+  changed_when: "nginx_verify_config.rc != 0"

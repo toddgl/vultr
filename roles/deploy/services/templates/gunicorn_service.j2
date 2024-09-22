@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# PROVIDE: gunicorn
+# REQUIRE: NETWORKING
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="gunicorn"
+rcvar="gunicorn_enable"
+
+pidfile="/var/run/${name}.pid"
+logfile="/var/log/${name}.log"
+gunicorn_command="/usr/local/bin/gunicorn"
+gunicorn_user="www"
+gunicorn_group="www"
+gunicorn_flags="-w 3 -b 127.0.0.1:8000 {{ projdir }}.config.wsgi:application"
+
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+restart_cmd="${name}_restart"
+
+gunicorn_start()
+{
+    echo "Starting ${name}..."
+    /usr/sbin/daemon -p ${pidfile} -u ${gunicorn_user} -o ${logfile} ${gunicorn_command} ${gunicorn_flags}
+}
+
+gunicorn_stop()
+{
+    echo "Stopping ${name}..."
+    kill `cat ${pidfile}`
+}
+
+gunicorn_restart()
+{
+    gunicorn_stop
+    sleep 2
+    gunicorn_start
+}
+
+load_rc_config $name
+run_rc_command "$1"

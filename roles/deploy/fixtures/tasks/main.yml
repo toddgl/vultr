@@ -1,0 +1,29 @@
+---
+# tasks file for fixtures
+- name: Load the accounts authgroup fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    app_path: "{{ projdir }}"
+    fixtures: "{{ projdir }}/accounts/fixtures/authgroups.yaml"
+    virtualenv: "{{ projdir }}/venv"
+
+- name: Load the accounts accounts.customuser fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    app_path: "{{ projdir }}"
+    fixtures: "{{ projdir }}/accounts/fixtures/accounts.yaml"
+    virtualenv: "{{ projdir }}/venv"
+
+- name: Load the accounts accounts.profile fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    app_path: "{{ projdir }}"
+    fixtures: "{{ projdir }}/accounts/fixtures/profile.yaml"
+    virtualenv: "{{ projdir }}/venv"
+
+- name: Load the accounts account.emailaddress fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    app_path: "{{ projdir }}"
+    fixtures: "{{ projdir }}/accounts/fixtures/emailaddress.yaml"
+    virtualenv: "{{ projdir }}/venv"
