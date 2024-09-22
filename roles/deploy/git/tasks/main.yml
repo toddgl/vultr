@@ -8,7 +8,7 @@
     update: True
     force: True
 
-- name: Recursively change ownership of the cloned directory
+- name: Recursively change ownership of the pulled directory
   ansible.builtin.file:
     path: "{{ projdir }}/fairsystem"
     state: directory
