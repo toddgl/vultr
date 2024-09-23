@@ -11,8 +11,8 @@
     path: "{{ projdir }}/fairsystem"
     state: directory
     recurse: yes
-    owner: www
-    group: www
+    owner: admin
+    group: admin
     mode: "0775"
 
 - name: Copy .env file
